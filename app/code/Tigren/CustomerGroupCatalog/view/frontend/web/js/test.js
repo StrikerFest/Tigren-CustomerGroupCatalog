@@ -7,17 +7,38 @@
 define([
     'jquery',
     'Magento_Ui/js/modal/alert',
+    'Magento_Ui/js/modal/confirm',
     'jquery/ui'
-], function ($, alert) {
+], function ($, alert, confirmation) {
     'use strict';
     $.widget('mage.test', {
-        options: {
-            content: ('Thissss issss JSSSSSSSSSSSSSS Test')
-        },
         _create: function () {
-            $("#" + this.options.id).click(() => {
-                alert({
-                    content: this.options.content
+            $('#' + this.options.id).click(() => {
+                confirmation({
+                    title: $.mage.__('Are you sure about that?'),
+                    actions: {
+                        confirm: function () {
+                            alert({
+                                content: $.mage.__('Success')
+                            });
+                        },
+                        cancel: function () {
+
+                        }
+                    },
+                    buttons: [
+                        {
+                            text: $.mage.__('Cancel'),
+                            click: function (event) {
+                                this.closeModal(event);
+                            }
+                        }, {
+                            text: $.mage.__('OK'),
+                            click: function (event) {
+                                this.closeModal(event, true);
+                            }
+                        }
+                    ]
                 });
             });
         }
